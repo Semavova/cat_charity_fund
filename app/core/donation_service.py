@@ -46,7 +46,7 @@ async def investment(
     При создании проекта перебирает свободные пожертвования.
     """
     all_open_obj = await session.execute(
-        select(model).where(model.fully_invested == False)
+        select(model).where(model.fully_invested is not True)
     )
     all_open_obj = all_open_obj.scalars().all()
     for open_obj in all_open_obj:

@@ -62,4 +62,4 @@ http://127.0.0.1:8000/docs
 
 ## Автор
 
-- [GitHub](https://github.com/semavova)
+- [Семочкин Владимир](https://github.com/semavova)
