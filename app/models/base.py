@@ -6,15 +6,17 @@ from app.core.db import Base
 
 DESCRIPTION = (
     "Необходимая сумма: {full_amount}, "
-    "Уже собрано: {invested_amount}."
+    "Уже собрано: {invested_amount}, "
+    "Использовано: {fully_invested}, "
+    "Дата создания: {create_date}, "
+    "Дата закрытия: {close_date}."
 )
 
 
-class BaseClass(Base):
+class Fund(Base):
     __abstract__ = True
     __table_args__ = (
-        CheckConstraint('full_amount > 0'),
-        CheckConstraint('full_amount >= invested_amount'),
+        CheckConstraint('full_amount > 0 and full_amount >= invested_amount'),
     )
 
     full_amount = Column(Integer, nullable=False)
@@ -26,5 +28,8 @@ class BaseClass(Base):
     def __repr__(self):
         return DESCRIPTION.format(
             full_amount=self.full_amount,
-            invested_amount=self.invested_amount
+            invested_amount=self.invested_amount,
+            fully_invested=self.fully_invested,
+            create_date=self.create_date,
+            close_date=self.close_date
         )

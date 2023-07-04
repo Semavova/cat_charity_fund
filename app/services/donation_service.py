@@ -1,13 +1,13 @@
 from datetime import datetime
-from typing import List, Optional
+from typing import List
 
-from app.models.base import Base
+from app.models.base import Fund
 
 
 def investment(
-    target: Base,
-    sources: List[Base],
-) -> List[Optional[Base]]:
+    target: Fund,
+    sources: List[Fund],
+) -> List[Fund]:
     """
     Перебирает открытые проекты/донаты, вычисляет сумму перевода.
     Переводит средства из донатов в проекты.
