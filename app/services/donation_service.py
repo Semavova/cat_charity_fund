@@ -1,28 +1,30 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
+
+from app.models.base import Base
 
 
 def investment(
-    target,
-    sources,
-) -> List:
+    target: Base,
+    sources: List[Base],
+) -> List[Optional[Base]]:
     """
     Перебирает открытые проекты/донаты, вычисляет сумму перевода.
     Переводит средства из донатов в проекты.
     Закрывает исчерпанные донаты и заполненные проекты.
     """
     modified = []
-    for open_obj in sources:
+    for source in sources:
         fund = min(
             target.full_amount - target.invested_amount,
-            open_obj.full_amount - open_obj.invested_amount
+            source.full_amount - source.invested_amount
         )
-        investments = [target, open_obj]
-        for investment in investments:
+        if not fund:
+            break
+        for investment in [target, source]:
             investment.invested_amount += fund
             if investment.invested_amount == investment.full_amount:
                 investment.fully_invested = True
                 investment.close_date = datetime.now()
-        modified.append(open_obj)
-    modified.append(target)
+        modified.append(source)
     return modified

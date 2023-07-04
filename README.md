@@ -31,10 +31,6 @@ python -m pip install --upgrade pip
 ```bash
 pip install -r requirements.txt
 ```
-Создайте миграции:
-```bash
-alembic revision --autogenerate -m "First migration"
-```
 Примените миграции:
 ```bash
 alembic upgrade head
@@ -58,6 +54,7 @@ DATABASE_URL=      # Путь подключения к БД
 
 ```
 http://127.0.0.1:8000/docs
+http://127.0.0.1:8000/redoc
 ```
 
 ## Автор

@@ -4,9 +4,8 @@ from app.models.base import BaseClass
 
 DESCRIPTION = (
     "Название: {name}, "
-    "Необходимая сумма: {full_amount}, "
-    "Уже собрано: {invested_amount}, "
-    "Завершен сбор: {fully_invested}"
+    "Описание: {description}, "
+    "{invested}"
 )
 
 
@@ -17,7 +16,6 @@ class CharityProject(BaseClass):
     def __repr__(self):
         return DESCRIPTION.format(
             name=self.name,
-            full_amount=self.full_amount,
-            invested_amount=self.invested_amount,
-            fully_invested=self.fully_invested
+            description=self.description,
+            invested=super().__repr__()
         )
