@@ -1,8 +1,6 @@
-from datetime import datetime
+from sqlalchemy import Column, String, Text
 
-from sqlalchemy import Boolean, Column, DateTime, Integer, String, Text
-
-from app.core.db import Base
+from app.models.base import BaseClass
 
 DESCRIPTION = (
     "Название: {name}, "
@@ -12,14 +10,9 @@ DESCRIPTION = (
 )
 
 
-class CharityProject(Base):
+class CharityProject(BaseClass):
     name = Column(String(100), unique=True, nullable=False)
     description = Column(Text, nullable=False)
-    full_amount = Column(Integer, nullable=False)
-    invested_amount = Column(Integer, default=0)
-    fully_invested = Column(Boolean, default=False)
-    create_date = Column(DateTime, default=datetime.utcnow, nullable=False)
-    close_date = Column(DateTime)
 
     def __repr__(self):
         return DESCRIPTION.format(

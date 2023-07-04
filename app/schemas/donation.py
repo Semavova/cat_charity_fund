@@ -13,7 +13,7 @@ class DonationBase(BaseModel):
 
 
 class DonationCreate(DonationBase):
-    pass
+    invested_amount: int = 0
 
 
 class DonationDB(DonationBase):

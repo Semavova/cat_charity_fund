@@ -9,13 +9,12 @@ from app.api.validators import (check_charity_project_close,
                                 check_invested_before_edit,
                                 check_name_duplicate)
 from app.core.db import get_async_session
-from app.core.donation_service import investment
 from app.core.user import current_superuser
-from app.crud.charity_project import charity_project_crud
-from app.models import Donation
+from app.crud import charity_project_crud, donation_crud
 from app.schemas.charity_project import (CharityProjectCreate,
                                          CharityProjectDB,
                                          CharityProjectUpdate)
+from app.services import investment
 
 GET_PROJECTS = "Получить список всех проектов."
 CREATE_PROJECT = "Создать проект."
@@ -55,8 +54,18 @@ async def create_charity_project(
     Создает благотворительный проект.
     """
     await check_name_duplicate(new_project.name, session)
-    new_project = await charity_project_crud.create(new_project, session)
-    await investment(new_project, Donation, session)
+    new_project = await charity_project_crud.create(
+        new_project,
+        session,
+        commit=False
+    )
+    objects = investment(
+        new_project,
+        await donation_crud.get_opened(session)
+    )
+    session.add_all(objects)
+    await session.commit()
+    await session.refresh(new_project)
     return new_project
 
 

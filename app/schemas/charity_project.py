@@ -9,16 +9,17 @@ AMOUNT_IS_NONE = "Необходимая сумма не может быть п�
 
 
 class CharityProjectBase(BaseModel):
-    name: str = Field(..., min_length=1, max_length=100)
-    description: str = Field(..., min_length=1)
+    name: str = Field(..., max_length=100)
+    description: str
     full_amount: PositiveInt
 
     class Config:
         extra = Extra.forbid
+        min_anystr_length = 1
 
 
 class CharityProjectCreate(CharityProjectBase):
-    pass
+    invested_amount: int = 0
 
 
 class CharityProjectUpdate(CharityProjectBase):
